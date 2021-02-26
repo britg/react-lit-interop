@@ -1,0 +1,15 @@
+.example {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 20px;
+  div:nth-child(2) {
+    background: #f6f9fc;
+    box-shadow: 0px 0px 3px #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+  }
+}
+
+.findings {
+}

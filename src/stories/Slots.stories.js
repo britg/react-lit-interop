@@ -1,64 +1,108 @@
-import React, { useState } from "react";
-import { LitElement, html, css } from "lit-element";
+import React, { useLayoutEffect, useEffect, useRef, useState } from "react";
+import WorksAsIntended from "./WorksAsIntended.findings.mdx";
+import "./GridWithSlots";
 
-class GridWithSlots extends LitElement {
-  static get styles() {
-    return css`
-      .grid {
-        display: grid;
-        grid-template-columns: 1f 1f;
-      }
-    `;
-  }
-  render() {
-    return html` <div class="grid">
-      <div>
-        <p>slot 1</p>
-        <slot name="1"></slot>
-      </div>
-      <div>
-        <p>slot 2</p>
-        <slot name="2"></slot>
-      </div>
-      <div>
-        <p>slot 3</p>
-        <slot name="3"></slot>
-      </div>
-      <div>
-        <p>slot 4</p>
-        <slot name="4"></slot>
-      </div>
-    </div>`;
-  }
-}
+export default {
+  title: "Slots",
+};
 
-customElements.define("grid-with-slots", GridWithSlots);
-
-export function SlotDemo() {
+export function DynamicSlotContent() {
   const [slotNum, setSlotNum] = useState(1);
 
   return (
-    <div>
-      <h1>Changing slot content dynamically</h1>
-      <p>
-        Clicking the button bellow should change the content to the nth slot via
-        react <code>setState</code>
-      </p>
+    <div className="example">
+      <div>
+        <h1>Changing slot content dynamically</h1>
+        <p>
+          Clicking the button bellow should change the content to the nth slot
+          via react <code>setState</code>
+        </p>
 
-      <button onClick={() => setSlotNum((slotNum % 4) + 1)}>Change slot</button>
+        <button onClick={() => setSlotNum((slotNum % 4) + 1)}>
+          Change slot
+        </button>
 
-      <grid-with-slots>
-        <div slot={slotNum}>Content in slot {slotNum}</div>
-      </grid-with-slots>
+        <grid-with-slots>
+          <div slot={slotNum}>Content in slot {slotNum}</div>
+        </grid-with-slots>
+      </div>
+
+      <div>
+        <WorksAsIntended />
+      </div>
     </div>
   );
 }
 
-export default {
-  title: "Slots",
-  component: SlotDemo,
-};
+export function SlotContentAsChildren() {
+  const [slotNum, setSlotNum] = useState(1);
+  return (
+    <div className="example">
+      <div>
+        <h1>Rendering child content into a slot</h1>
+        <p>
+          Clicking the button bellow should change the content to the nth slot
+          via react <code>setState</code>
+        </p>
+        <button onClick={() => setSlotNum((slotNum % 4) + 1)}>
+          Change slot
+        </button>
+        <SlotContentAsChildrenHost>
+          <div slot={slotNum}>Content in slot {slotNum}</div>
+        </SlotContentAsChildrenHost>
+      </div>
+      <div>
+        <WorksAsIntended />
+      </div>
+    </div>
+  );
+}
 
-// export const ChangeSlotContent = (args) => <SlotDemo {...args} />;
+function SlotContentAsChildrenHost({ children }) {
+  return <grid-with-slots>{children}</grid-with-slots>;
+}
 
-// export const Demo = Template.bind({});
+let prevRef;
+export function MaintainingRefs() {
+  const [slotNum, setSlotNum] = useState(1);
+  const [same, setSame] = useState(true);
+
+  const slottedRef = useRef();
+
+  useLayoutEffect(() => {
+    setSame(prevRef === slottedRef.current);
+  }, [slotNum]);
+
+  useLayoutEffect(() => {
+    prevRef = slottedRef.current;
+    setSame(prevRef === slottedRef.current);
+  }, []);
+
+  return (
+    <div className="example">
+      <div>
+        <h1>Are refs maintained when changing slots?</h1>
+        <p>
+          Clicking the button should change the slot of the content, but the ref
+          should remain the same.
+        </p>
+
+        <p>Ref maintained: {same ? "same" : "different"}</p>
+
+        <button onClick={() => setSlotNum((slotNum % 4) + 1)}>
+          Change slot
+        </button>
+
+        <grid-with-slots>
+          <div ref={slottedRef} slot={slotNum}>
+            Content in slot {slotNum}
+          </div>
+        </grid-with-slots>
+      </div>
+
+      <div>
+        <WorksAsIntended />
+      </div>
+    </div>
+  );
+}
