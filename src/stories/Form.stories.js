@@ -1,3 +1,4 @@
+import { LitElement, html } from "lit-element";
 import React, { useState, useLayoutEffect, useRef } from "react";
 import ManagedFormInputFindings from "./ManagedFormInput.findings.mdx";
 import "./LitInput";
@@ -36,6 +37,31 @@ export function ManagedFormInput() {
       <div>
         <ManagedFormInputFindings />
       </div>
+    </div>
+  );
+}
+
+class LitButton extends LitElement {
+  render() {
+    return html`<button>Web component wrapped button</button>`;
+  }
+}
+
+try {
+  customElements.define("lit-button", LitButton);
+} catch (e) {}
+
+export function ButtonOnlick() {
+  return (
+    <div className="example">
+      <div>
+        <h1>Button Events</h1>
+        <p>
+          The button below is a simple web components that renders a button.
+        </p>
+        <lit-button onClick={() => console.log("click")} />
+      </div>
+      <div></div>
     </div>
   );
 }
