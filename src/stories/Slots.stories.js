@@ -70,13 +70,12 @@ export function MaintainingRefs() {
   const slottedRef = useRef();
 
   useLayoutEffect(() => {
-    setSame(prevRef === slottedRef.current);
-  }, [slotNum]);
+    prevRef = slottedRef.current;
+  }, []);
 
   useLayoutEffect(() => {
-    prevRef = slottedRef.current;
     setSame(prevRef === slottedRef.current);
-  }, []);
+  }, [slotNum]);
 
   return (
     <div className="example">
