@@ -1,6 +1,7 @@
 import { LitElement, html } from "lit-element";
 import React, { useLayoutEffect, useEffect, useRef, useState } from "react";
 import WorksAsIntended from "./WorksAsIntended.findings.mdx";
+import ComplexPropsFindings from "./ComplexProps.findings.mdx";
 
 export default {
   title: "State",
@@ -74,6 +75,50 @@ export function InternalState() {
 
       <div>
         <WorksAsIntended />
+      </div>
+    </div>
+  );
+}
+
+class LitProps extends LitElement {
+  static get properties() {
+    return {
+      obj: { type: Object },
+      arr: { type: Array },
+    };
+  }
+  render() {
+    return html`
+      <div>Object: <code>${JSON.stringify(this.obj)}</code></div>
+      <div>Array: <code>${JSON.stringify(this.arr)}</code></div>
+    `;
+  }
+}
+
+try {
+  customElements.define("lit-props", LitProps);
+} catch (e) {}
+
+export function ComplexProps() {
+  const obj = { druid: "ramp", mage: "OTK" };
+  const arr = ["druid", "mage", "warrior"];
+
+  return (
+    <div className="example">
+      <div>
+        <h1>Passing a complex prop to a web component</h1>
+        <p>
+          The web component below should display the following object and array:
+          <code>{JSON.stringify(obj)}</code>
+          <br />
+          <code>{JSON.stringify(arr)}</code>
+        </p>
+
+        <lit-props obj={JSON.stringify(obj)} arr={JSON.stringify(arr)} />
+      </div>
+
+      <div>
+        <ComplexPropsFindings />
       </div>
     </div>
   );

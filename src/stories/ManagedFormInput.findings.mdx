@@ -3,7 +3,7 @@
 - The "React way" of function binding to web components does not work, even if on the root element.
   ```jsx
   // does not work
-  <lit-input onKeyPress={(e) => {}} />
+  <lit-input onChange={(e) => {}} />
   ```
 - Capturing bubbled events with `useRef` is not sufficient, because the event target gets masked to the web component, not the internal input, so if `inputRef` is a ref to the web component, `e.target.value` does not work.
 

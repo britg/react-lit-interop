@@ -22,3 +22,15 @@ Known web component and React compatibility issues https://custom-elements-every
 - State tools
 
   - Updating web component content based on a global state system like Redux or Zustand
+
+## Usage
+
+Install dependencies:
+```
+yarn
+```
+
+Run storybook
+```
+yarn storybook
+```

@@ -38,7 +38,7 @@ export function Inputs() {
 
           <p>Input value: {value}</p>
           <form>
-            <lit-input value={value} onChange={(e) => setValue(e.target.value)} />
+            <lit-input value={value} onInput={(e) => setValue(e.target.value)} />
           </form>
         </div>
 

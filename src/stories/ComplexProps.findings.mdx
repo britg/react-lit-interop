@@ -1,0 +1,7 @@
+# Findings
+
+- Object and array properties must first be <code>JSON.stringify</code>'d
+  ```
+    <lit-props obj={JSON.stringify(obj)} arr={JSON.stringify(arr)} />
+  ```
+- They will automatically be parsed into their respective value
