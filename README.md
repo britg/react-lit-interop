@@ -23,6 +23,12 @@ Known web component and React compatibility issues https://custom-elements-every
 
   - Updating web component content based on a global state system like Redux or Zustand
 
+## React + Web Components Tools
+
+- https://github.com/BBKolton/reactify-wc
+- https://github.com/skatejs/val
+- https://www.fast.design/docs/integrations/react
+
 ## Usage
 
 Install dependencies:
